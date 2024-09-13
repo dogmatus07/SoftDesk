@@ -1,0 +1,14 @@
+# Virtual environments
+.venv/
+env/
+venv/
+pip-selfcheck.json
+# PyCharm config files
+.idea/
+# Python Directory and files
+*.pyc
+__pycache__/
+# Database files
+db.sqlite3
+# Media files
+media/
