@@ -1,9 +1,15 @@
+"""
+Import models, User and uuid
+"""
+import uuid
 from django.db import models
 from django.contrib.auth.models import User
-import uuid
 
 
 class Project(models.Model):
+    """
+    class representing a Project
+    """
     BACK_END = "BACK_END"
     FRONT_END = "FRONT_END"
     IOS = "IOS"
@@ -24,11 +30,15 @@ class Project(models.Model):
     )
     created_time = models.DateTimeField(auto_now_add=True)
 
+
     def __str__(self):
-        return self.title
+        return str(self.title)
 
 
 class Contributor(models.Model):
+    """
+    Class representing a Contributor
+    """
     project = models.ForeignKey(
         Project, on_delete=models.CASCADE, related_name="contributors"
     )
