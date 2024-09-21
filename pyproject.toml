@@ -1,3 +1,5 @@
 [tool.ruff]
 line-length = 88
 select = ["E", "F", "W", "C90"]
+[MASTER]
+load-plugins=pylint_django
