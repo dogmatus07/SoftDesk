@@ -1,6 +1,6 @@
 from rest_framework import generics, permissions
+from api.models import Project, Contributor, Issue, Comment
 from .serializers import ProjectSerializer, ContributorSerializer, IssueSerializer, CommentSerializer
-from .models import Project, Contributor, Issue, Comment
 
 
 # Project views
