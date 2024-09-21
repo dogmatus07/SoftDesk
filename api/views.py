@@ -1,6 +1,14 @@
+"""
+Importing the necessary modules from the rest_framework and api app
+"""
 from rest_framework import generics, permissions
 from api.models import Project, Contributor, Issue, Comment
-from .serializers import ProjectSerializer, ContributorSerializer, IssueSerializer, CommentSerializer
+from .serializers import (
+    ProjectSerializer,
+    ContributorSerializer,
+    IssueSerializer,
+    CommentSerializer,
+)
 
 
 # Project views
@@ -76,4 +84,3 @@ class CommentDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = [permissions.IsAuthenticated]
-
