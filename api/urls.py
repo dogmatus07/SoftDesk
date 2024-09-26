@@ -30,8 +30,14 @@ urlpatterns = [
         name="contributor-detail"),
 
     # issue urls
-    path("issues/", IssueListCreateView.as_view(), name="issue-list-create"),
-    path("issues/<int:pk>/", IssueDetailView.as_view(), name="issue-detail"),
+    path(
+        "projects/<int:project_id>/issues/",
+        IssueListCreateView.as_view(),
+        name="issue-list-create"),
+    path(
+        "projects/<int:project_id>/issues/<int:pk>/",
+        IssueDetailView.as_view(),
+        name="issue-detail"),
 
     # comment urls
     path("comments/", CommentListCreateView.as_view(), name="comment-list-create"),
