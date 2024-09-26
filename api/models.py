@@ -3,8 +3,22 @@ Import models, User and uuid
 """
 import uuid
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
+from django.conf import settings
 
+
+class CustomUser(AbstractUser):
+    """
+    Custom User model that extends the default User Model by Django
+    """
+
+    age = models.PositiveIntegerField(null=True, blank=True)
+    consent = models.BooleanField(default=False)
+    username = models.CharField(max_length=255, unique=True)
+
+
+    def __str__(self):
+        return str(self.username)
 
 class Project(models.Model):
     """
@@ -26,7 +40,7 @@ class Project(models.Model):
     description = models.TextField()
     type = models.CharField(max_length=255, choices=TYPE_CHOICES)
     author_user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="projects"
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="projects"
     )
     created_time = models.DateTimeField(auto_now_add=True)
 
@@ -41,10 +55,14 @@ class Contributor(models.Model):
     project = models.ForeignKey(
         Project, on_delete=models.CASCADE, related_name="contributors"
     )
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     role = models.CharField(max_length=255, default="Contributor")
 
     class Meta:
+        """
+        Define the unique_together attribute to ensure that
+        a user can only be added to a project once.
+        """
         unique_together = ("project", "user")
 
     def __str__(self):
@@ -57,8 +75,10 @@ class Issue(models.Model):
     - id: a UUID field that is the primary key.
     - title: a CharField with a maximum length of 255 characters.
     - description: a TextField.
-    - priority: a CharField with a maximum length of 6 characters. It should have three choices: LOW, MEDIUM, and HIGH.
-    - type: a CharField with a maximum length of 7 characters. It should have three choices: BUG, FEATURE, and TASK.
+    - priority: a CharField with a maximum length of 10 characters.
+    It should have three choices: LOW, MEDIUM, and HIGH.
+    - tag: a CharField with a maximum length of 10 characters.
+    It should have three choices: BUG, FEATURE, and TASK.
     - project: a ForeignKey to the Project model with a CASCADE delete option.
     - author_user: a ForeignKey to the User model with a CASCADE delete option.
     - assignee: a ForeignKey to the User model with a CASCADE delete option.
@@ -97,10 +117,14 @@ class Issue(models.Model):
     priority = models.CharField(max_length=10, choices=PRIORITY_CHOICES)
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default=TODO)
     author_user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="issues_created"
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="issues_created"
     )
     assignee = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="issues_assigned"
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="issues_assigned"
     )
     project = models.ForeignKey(
         Project, on_delete=models.CASCADE, related_name="issues"
@@ -108,7 +132,7 @@ class Issue(models.Model):
     created_time = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.title
+        return str(self.title)
 
 
 class Comment(models.Model):
@@ -126,7 +150,7 @@ class Comment(models.Model):
     )
     description = models.TextField()
     author_user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="comments"
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="comments"
     )
     issue = models.ForeignKey(Issue, on_delete=models.CASCADE, related_name="comments")
     created_time = models.DateTimeField(auto_now_add=True)
