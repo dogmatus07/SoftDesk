@@ -21,31 +21,40 @@ def run():
         first_name = "Franck",
         last_name = "Kouassi",
         username = "user1",
-        password = "DevSoftD3sk)",
         age=26, consent = True,
         can_be_contacted = True,
         can_data_be_shared = True
         )
+    
+    #set password for user1
+    user1.set_password('DevSoftD3sk)')
+    user1.save()
 
     user2, created = User.objects.get_or_create(
         first_name = "Sylvie",
         last_name = "Mehdi",
         username = "user2",
-        password = "DevSoftD3sk)",
         age = 18, consent = True,
         can_be_contacted = True,
         can_data_be_shared = True
     )
 
+    # set password for user2
+    user2.set_password('DevSoftD3sk)')
+    user2.save()
+
     user3, created = User.objects.get_or_create(
         first_name = "Antoine",
         last_name = "Thibault",
         username = "user3",
-        password = "DevSoftD3sk)",
         age = 13, consent = True,
         can_be_contacted = True,
         can_data_be_shared = True
     )
+
+    #set password for user4
+    user3.set_password('DevSoftD3sk)')
+    user3.save()
 
     user4, created = User.objects.get_or_create(
         first_name = "Olivier",
@@ -57,6 +66,10 @@ def run():
         can_data_be_shared = True
     )
 
+    # set password for user4
+    user4.set_password('DevSoftD3sk)')
+    user4.save()
+
     user5, created = User.objects.get_or_create(
         first_name = "Stéphane",
         last_name = "Schmitt",
@@ -66,6 +79,10 @@ def run():
         can_be_contacted = True,
         can_data_be_shared = True
     )
+
+    # set password for user5
+    user5.set_password('DevSoftD3sk)')
+    user5.save()
 
     # create projects
     project1 = Project.objects.create(
