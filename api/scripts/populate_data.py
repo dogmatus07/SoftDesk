@@ -126,21 +126,25 @@ def run():
         user = user1,
         role = "Author"
     )
+
     Contributor.objects.create(
         project = project2,
         user = user2,
         role = "Author"
     )
+
     Contributor.objects.create(
         project = project3,
         user = user3,
         role = "Author"
     )
+
     Contributor.objects.create(
         project = project4,
         user = user4,
         role = "Author"
     )
+    
     Contributor.objects.create(
         project = project5,
         user = user5,
