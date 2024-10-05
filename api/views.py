@@ -34,6 +34,19 @@ class UserDeleteView(generics.DestroyAPIView):
     def perform_destroy(self, instance):
         instance.delete()
 
+# user profile view
+
+class UserProfile(APIView):
+    """
+    Retrieve the user profile
+    """
+    permission_classes = [permissions.IsAuthenticated, IsActiveUser]
+    serializer_class = UserSerializer
+
+
+    def get(self, request):
+        serializer = self.serializer_class(request.user)
+        return Response(serializer.data)
 
 # Project views
 @method_decorator(cache_page(60*15), name='dispatch')

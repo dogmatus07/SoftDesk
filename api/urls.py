@@ -11,10 +11,14 @@ from .views import (
     IssueDetailView,
     CommentListCreateView,
     CommentDetailView,
+    UserProfile,
 )
 
 
 urlpatterns = [
+    # profile urls
+    path("profile/", UserProfile.as_view(), name="profile-detail"),
+
     # project urls
     path("projects/", ProjectListCreateView.as_view(), name="project-list-create"),
     path("projects/<int:pk>/", ProjectDetailView.as_view(), name="project-detail"),
