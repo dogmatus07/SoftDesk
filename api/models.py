@@ -14,7 +14,7 @@ class CustomUser(AbstractUser):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     username = models.CharField(max_length=255, unique=True)
-    age = models.PositiveIntegerField(null=False, blank=False)
+    age = models.PositiveIntegerField(null=True, blank=True)
     consent = models.BooleanField(default=False)
     can_be_contacted = models.BooleanField(default=False)
     can_data_be_shared = models.BooleanField(default=False)
@@ -38,10 +38,6 @@ class Project(models.Model):
         (ANDROID, "Android"),
     ]
 
-    uuid = models.UUIDField(
-        primary_key=True,
-        default=uuid.uuid4,
-        editable=False, unique=True)
     title = models.CharField(max_length=255)
     description = models.TextField()
     type = models.CharField(max_length=255, choices=TYPE_CHOICES)
@@ -116,10 +112,6 @@ class Issue(models.Model):
         (FINISHED, "Finished"),
     ]
 
-    uuid = models.UUIDField(
-        primary_key=True,
-        default=uuid.uuid4,
-        editable=False, unique=True)
     title = models.CharField(max_length=255)
     description = models.TextField()
     tag = models.CharField(max_length=10, choices=TAG_CHOICES)

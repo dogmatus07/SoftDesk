@@ -1,13 +1,15 @@
 import os
+import sys
 import django
 
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+
 # run the script independently
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "SoftDesk.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "softdesk.settings")
 django.setup()
 
 from django.contrib.auth import get_user_model
 from api.models import Project, Contributor, Issue, Comment
-
 
 User = get_user_model()
 
@@ -240,3 +242,6 @@ def run():
     )
 
     print("Database populated successfully")
+
+if __name__ == "__main__":
+    run()
