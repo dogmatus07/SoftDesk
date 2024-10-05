@@ -5,7 +5,7 @@ import django
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 # run the script independently
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "softdesk.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "softdesk.settings")x²
 django.setup()
 
 from django.contrib.auth import get_user_model
