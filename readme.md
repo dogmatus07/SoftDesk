@@ -8,6 +8,7 @@ SoftDesk Support est une API construite avec Django et Django Rest Framework pou
 * Django 5.1.1
 * Django Rest Framework 3.15.2
 * JWT pour l'authentification
+* Drf-yasg (Redoc / Swagger)
 
 Les dépendances du projet se trouvent dans le fichier requirements.txt et peuvent être installées avec :
 
@@ -95,6 +96,12 @@ Voici un résumé des principaux points de terminaison de l'API :
 
 ## Script de population des données
 Le script populate_data.py permet de remplir la base de données avec des données de test, comme des utilisateurs, des projets, des contributeurs, des problèmes et des commentaires.
+
+Se rendre dans api > scripts
+
+```
+cd api/scripts
+```
 
 Exécutez le script avec :
 
