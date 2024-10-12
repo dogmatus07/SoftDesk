@@ -3,7 +3,7 @@
 SoftDesk Support est une API construite avec Django et Django Rest Framework pour la gestion de projets, de contributeurs, de problèmes (issues) et de commentaires dans un environnement de support technique.
 
 ## Prérequis
-* Python 3.8+
+* Python 3.11+
 * Pipenv pour la gestion des environnements virtuels
 * Django 5.1.1
 * Django Rest Framework 3.15.2
