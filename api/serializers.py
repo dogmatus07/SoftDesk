@@ -47,11 +47,11 @@ class ProjectSerializer(serializers.ModelSerializer):
 
 # Serializer for contributor model
 class ContributorSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
+    user = serializers.PrimaryKeyRelatedField(queryset=get_user_model().objects.all())
 
     class Meta:
         model = Contributor
-        fields = ['id', 'user', 'role']
+        fields = ['user', 'role']
 
 
 # Serializer for issue model

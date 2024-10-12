@@ -25,11 +25,11 @@ urlpatterns = [
 
     # contributor urls
     path(
-        "contributors/",
+        "projects/<int:project_id>/contributors/",
         ContributorListView.as_view(),
         name="contributor-list-create"),
     path(
-        "contributors/<int:pk>/",
+        "projects/<int:project_id>/contributors/<int:pk>/",
         ContributorDetailView.as_view(),
         name="contributor-detail"),
 

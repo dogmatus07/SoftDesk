@@ -1,6 +1,8 @@
 """
 Importing the necessary modules from the rest_framework and api app
 """
+from django.shortcuts import get_object_or_404
+from rest_framework import serializers
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -99,17 +101,41 @@ class ContributorListView(generics.ListCreateAPIView):
 
 
     def get_queryset(self):
+        """
+        Return a list of contributors for the project specified by the project id in the url
+        """
         project_id = self.kwargs['project_id']
         return Contributor.objects.filter(project_id=project_id)
+    
+    def perform_create(self, serializer):
+        """
+        Add a new contributor to the project specified by the project id in the url
+        """
+        project_id = self.kwargs['project_id']
+        project = get_object_or_404(Project, id=project_id)
+        user = serializer.validated_data['user']
+
+        # check if the user is already a contributor to the project
+        if Contributor.objects.filter(project=project, user=user).exists():
+            raise serializers.ValidationError("Cet utilisateur est déjà un contributeur de ce projet")
+        
+        # if the user is not already a contributor, save it
+        serializer.save(project=project)
 
 @method_decorator(cache_page(60*15), name='dispatch')
 class ContributorDetailView(generics.RetrieveUpdateDestroyAPIView):
     """
     Retrieve, update or delete a contributor instance
     """
-    queryset = Contributor.objects.all()
     serializer_class = ContributorSerializer
     permission_classes = [permissions.IsAuthenticated, IsActiveUser]
+
+    def get_queryset(self):
+        """
+        Return a list of contributors for the project specified by the project id in the url
+        """
+        project_id = self.kwargs['project_id']
+        return Contributor.objects.filter(project_id=project_id)
 
 @method_decorator(cache_page(60*15), name='dispatch')
 class IssueListCreateView(generics.ListCreateAPIView):

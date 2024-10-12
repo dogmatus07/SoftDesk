@@ -11,8 +11,8 @@ class CustomUser(AbstractUser):
     """
     Custom User model that extends the default User Model by Django
     """
-    first_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
+    first_name = models.CharField(max_length=255, null=True, blank=True)
+    last_name = models.CharField(max_length=255, null=True, blank=True)
     username = models.CharField(max_length=255, unique=True)
     age = models.PositiveIntegerField(null=True, blank=True)
     consent = models.BooleanField(default=False)
