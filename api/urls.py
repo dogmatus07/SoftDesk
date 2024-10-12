@@ -2,6 +2,7 @@
 Import the path function from django.urls and the views from the api app.
 """
 from django.urls import path
+from drf_yasg import openapi
 from .views import (
     ProjectListCreateView,
     ProjectDetailView,
