@@ -113,6 +113,7 @@ class ContributorListView(generics.ListCreateAPIView):
         """
         project_id = self.kwargs['project_id']
         project = get_object_or_404(Project, id=project_id)
+
         user = serializer.validated_data['user']
 
         # check if the user is already a contributor to the project
@@ -120,7 +121,7 @@ class ContributorListView(generics.ListCreateAPIView):
             raise serializers.ValidationError("Cet utilisateur est déjà un contributeur de ce projet")
         
         # if the user is not already a contributor, save it
-        serializer.save(project=project)
+        serializer.save(project=project, user=user)
 
 @method_decorator(cache_page(60*15), name='dispatch')
 class ContributorDetailView(generics.RetrieveUpdateDestroyAPIView):
