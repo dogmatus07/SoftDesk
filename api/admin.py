@@ -1,6 +1,7 @@
 """
 Import the models from the api app and register them with the admin site.
 """
+
 from django.contrib import admin
 from .models import (
     CustomUser,

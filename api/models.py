@@ -1,6 +1,7 @@
 """
 Import models, User and uuid
 """
+
 import uuid
 from django.db import models
 from django.contrib.auth.models import AbstractUser
@@ -11,6 +12,7 @@ class CustomUser(AbstractUser):
     """
     Custom User model that extends the default User Model by Django
     """
+
     first_name = models.CharField(max_length=255, null=True, blank=True)
     last_name = models.CharField(max_length=255, null=True, blank=True)
     username = models.CharField(max_length=255, unique=True)
@@ -22,10 +24,12 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return str(self.username)
 
+
 class Project(models.Model):
     """
     class representing a Project
     """
+
     BACK_END = "BACK_END"
     FRONT_END = "FRONT_END"
     IOS = "IOS"
@@ -54,6 +58,7 @@ class Contributor(models.Model):
     """
     Class representing a Contributor
     """
+
     project = models.ForeignKey(
         Project, on_delete=models.CASCADE, related_name="contributors"
     )
@@ -65,6 +70,7 @@ class Contributor(models.Model):
         Define the unique_together attribute to ensure that
         a user can only be added to a project once.
         """
+
         unique_together = ("project", "user")
 
     def __str__(self):
@@ -120,12 +126,12 @@ class Issue(models.Model):
     author_user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name="issues_created"
+        related_name="issues_created",
     )
     assignee = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name="issues_assigned"
+        related_name="issues_assigned",
     )
     project = models.ForeignKey(
         Project, on_delete=models.CASCADE, related_name="issues"
