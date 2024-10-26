@@ -109,3 +109,32 @@ Exécutez le script avec :
 ```
 python populate_data.py
 ```
+## Utilisation de Swagger pour tester les endpoints
+Rendez-vous sur http://127.0.0.1:8000/swagger/
+
+### Obtenez un token
+Se rendre dans la section "Token" puis cliquer sur Try it out.
+
+Utilisez l'accès d'un user pour générer le token. Ex. user1
+
+```
+{
+  "username": "user1",
+  "password": "DevSoftD3sk"
+}
+```
+Cliquez sur "Execute". 
+Dans la réponse obtenue (body), vous obtenez votre token refresh et token access. Copiez le token access.
+
+### S'authentifier sur Swagger
+Revenez en haut de la page puis cliquez sur "Authorize".
+
+Dans la fenêtre modale qui s'ouvre, tapez : 
+```
+Bearer suivi de votre token access
+```
+Vous êtes maintenant authentifié et pouvez effectuer vos tests. 
+
+### Tester les endpoints
+
+Une fois authentifié, effectuez des requêtes GET ou POST en cliquant sur Try it out dans la section souhaitée.
