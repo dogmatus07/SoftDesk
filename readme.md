@@ -91,6 +91,7 @@ Voici un résumé des principaux points de terminaison de l'API :
 * /issues/{id}/ : Détails, mise à jour ou suppression d'un problème.
 * /comments/ : Liste et création de commentaires.
 * /comments/{id}/ : Détails, mise à jour ou suppression d'un commentaire.
+* /swagger/ : Documentation API, permet de tester les différents endpoints et d'effectuer des opérations CRUD
 
 **Les points de terminaison nécessitent une authentification via JWT.**
 

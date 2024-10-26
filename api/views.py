@@ -119,7 +119,7 @@ class ContributorListView(generics.ListCreateAPIView):
         # check if the user is already a contributor to the project
         if Contributor.objects.filter(project=project, user=user).exists():
             raise serializers.ValidationError("Cet utilisateur est déjà un contributeur de ce projet")
-        
+
         # if the user is not already a contributor, save it
         serializer.save(project=project, user=user)
 
