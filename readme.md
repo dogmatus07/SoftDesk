@@ -120,7 +120,7 @@ Utilisez l'accès d'un user pour générer le token. Ex. user1
 ```
 {
   "username": "user1",
-  "password": "DevSoftD3sk"
+  "password": "DevSoftD3sk)"
 }
 ```
 Cliquez sur "Execute". 

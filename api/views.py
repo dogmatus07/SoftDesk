@@ -3,12 +3,14 @@ Importing the necessary modules from the rest_framework and api app
 """
 
 from django.shortcuts import get_object_or_404
+from rest_framework.exceptions import PermissionDenied
 from rest_framework import serializers
 from rest_framework import generics, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
+from django.core.cache import cache
 from api.models import Project, Contributor, Issue, Comment
 from .permissions import IsActiveUser
 from .serializers import (
@@ -68,7 +70,7 @@ class ProjectListCreateView(generics.ListCreateAPIView):
         """
         Return a list of projects that the user is a contributor to
         """
-        return Project.objects.filter(contributors__user=self.request.user)
+        return Project.objects.all().order_by("-created_time")
 
     def perform_create(self, serializer):
         """
@@ -78,6 +80,7 @@ class ProjectListCreateView(generics.ListCreateAPIView):
         Contributor.objects.create(
             project=project, user=self.request.user, role="Author"
         )
+        cache.clear()
 
 
 @method_decorator(cache_page(60 * 15), name="dispatch")
@@ -126,6 +129,7 @@ class ContributorListView(generics.ListCreateAPIView):
 
         # if the user is not already a contributor, save it
         serializer.save(project=project, user=user)
+        cache.clear()
 
 
 @method_decorator(cache_page(60 * 15), name="dispatch")
@@ -170,6 +174,7 @@ class IssueListCreateView(generics.ListCreateAPIView):
         project_id = self.kwargs["project_id"]
         project = Project.objects.get(id=project_id)
         serializer.save(author_user=self.request.user, project=project)
+        cache.clear()
         return super().perform_create(serializer)
 
 
@@ -194,11 +199,13 @@ class IssueDetailView(generics.RetrieveUpdateDestroyAPIView):
         if self.get_object().author_user != self.request.user:
             raise PermissionDenied("Vous n'êtes pas autorisé à effectuer cette action")
         serializer.save()
+        cache.clear()
 
     def perform_destroy(self, instance):
         if instance.author_user != self.request.user:
             raise PermissionDenied("Vous n'êtes pas autorisé à effectuer cette action")
         instance.delete()
+        cache.clear()
 
 
 @method_decorator(cache_page(60 * 15), name="dispatch")
@@ -214,12 +221,21 @@ class CommentListCreateView(generics.ListCreateAPIView):
         """
         Return a list of comments that the user is a contributor to
         """
-        return Comment.objects.filter(
-            issue__project__contributors__user=self.request.user
-        )
+        issue_id = self.request.query_params.get("issue_id")
+        project_id = self.request.query_params.get("project_id")
+        queryset = Comment.objects.all()
+
+        if project_id and issue_id:
+            queryset = queryset.filter(issue__project_id=project_id, issue_id=issue_id)
+        elif project_id:
+            queryset = queryset.filter(issue__project_id=project_id)
+        elif issue_id:
+            queryset = queryset.filter(issue_id=issue_id)
+        return queryset.order_by("-created_time")
 
     def perform_create(self, serializer):
         serializer.save(author_user=self.request.user)
+        cache.clear()
 
 
 @method_decorator(cache_page(60 * 15), name="dispatch")
@@ -231,18 +247,19 @@ class CommentDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = [permissions.IsAuthenticated, IsActiveUser]
+    lookup_field = "uuid"
 
     def get_queryset(self):
-        return Comment.objects.filter(
-            issue__project__contributors__user=self.request.user
-        )
+        return Comment.objects.all()
 
     def perform_update(self, serializer):
         if self.get_object().author_user != self.request.user:
             raise PermissionDenied("Vous n'êtes pas autorisé à effectuer cette action")
         serializer.save()
+        cache.clear()
 
     def perform_destroy(self, instance):
         if instance.author_user != self.request.user:
             raise PermissionDenied("Vous n'êtes pas autorisé à effectuer cette action")
         instance.delete()
+        cache.clear()

@@ -46,5 +46,5 @@ urlpatterns = [
     ),
     # comment urls
     path("comments/", CommentListCreateView.as_view(), name="comment-list-create"),
-    path("comments/<int:pk>/", CommentDetailView.as_view(), name="comment-detail"),
+    path("comments/<uuid:uuid>/", CommentDetailView.as_view(), name="comment-detail"),
 ]
