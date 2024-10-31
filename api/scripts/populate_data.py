@@ -223,11 +223,11 @@ def run():
     # create contributors
 
     contributor_data = [
-        ("project1", user1, "Author"),
-        ("project2", user2, "Author"),
-        ("project3", user3, "Author"),
-        ("project4", user4, "Author"),
-        ("project5", user5, "Author"),
+        (project1, user1, "Author"),
+        (project2, user2, "Author"),
+        (project3, user3, "Author"),
+        (project4, user4, "Author"),
+        (project5, user5, "Author"),
     ]
 
     for project, user, role in contributor_data:
