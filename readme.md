@@ -3,86 +3,39 @@
 SoftDesk Support est une API construite avec Django et Django Rest Framework pour la gestion de projets, de contributeurs, de problèmes (issues) et de commentaires dans un environnement de support technique.
 
 ## Prérequis
-* Python 3.11+
+* Python 3.12
 * Pipenv pour la gestion des environnements virtuels
 * Django 5.1.1
 * Django Rest Framework 3.15.2
 * JWT pour l'authentification
 * Drf-yasg (Redoc / Swagger)
 
-Les dépendances du projet se trouvent dans le fichier requirements.txt et peuvent être installées avec :
+Les dépendances du projet se trouvent dans le fichier requirements.txt.
 
-```
-pipenv install
-```
 Dépendances principales :
 
 * Django Rest Framework
 * Simple JWT pour l'authentification
 * Ruff pour le linting
 
-## Installation
-1. Clonez ce dépôt
+### Modèles de données
 
-```
-git clone https://github.com/dogmatus07/SoftDesk.git
-```
-
-2. Accédez au répertoire du projet
-
-```
-cd softdesk
-```
-
-3. Activez l'environnement virtuel avec Pipenv
-
-```
-pipenv shell
-```
-
-4. Installez les dépendances du projet
-
-```
-pipenv install
-```
-
-5. Configurez la base de données et effectuez les migrations
-
-```
-python manage.py makemigrations
-python manage.py migrate
-```
-
-6. Créez un super utilisateur pour accéder à l'admin Django
-
-```
-python manage.py createsuperuser
-```
-
-7. Lancez le serveur local
-
-```
-python manage.py runserver
-```
-
-## Modèles de données
-
-### Custom User
+#### Custom User
 Le modèle CustomUser étend le modèle d'utilisateur par défaut de Django avec des champs supplémentaires tels que l'âge, le consentement et les préférences de communication.
 
-### Project
+#### Project
 Représente un projet avec un titre, une description, un type (back-end, front-end, iOS, Android), et l'auteur du projet.
 
-### Contributor
+#### Contributor
 Permet de gérer les contributeurs à un projet, chaque utilisateur ne pouvant contribuer qu'à un seul projet à la fois.
 
-### Issue
+#### Issue
 Le modèle Issue représente un problème lié à un projet, avec des priorités (basse, moyenne, haute), des étiquettes (bug, fonctionnalité, tâche), et un statut (à faire, en cours, terminé).
 
-### Comment
+#### Comment
 Le modèle Comment permet aux utilisateurs de commenter des problèmes spécifiques.
 
-## Points de terminaison (API Endpoints)
+### Points de terminaison (API Endpoints)
 Voici un résumé des principaux points de terminaison de l'API :
 
 * /projects/ : Liste des projets et création de nouveaux projets.
@@ -95,46 +48,123 @@ Voici un résumé des principaux points de terminaison de l'API :
 
 **Les points de terminaison nécessitent une authentification via JWT.**
 
-## Script de population des données
-Le script populate_data.py permet de remplir la base de données avec des données de test, comme des utilisateurs, des projets, des contributeurs, des problèmes et des commentaires.
-
-Se rendre dans api > scripts
+## Etapes d'installation et de configuration
+1. Clonez le dépôt Git
 
 ```
-cd api/scripts
+git clone https://github.com/dogmatus07/SoftDesk.git
 ```
 
-Exécutez le script avec :
+2. Accédez au répertoire du projet
 
 ```
-python populate_data.py
+cd SoftDesk
 ```
-## Utilisation de Swagger pour tester les endpoints
-Rendez-vous sur http://127.0.0.1:8000/swagger/
 
-### Obtenez un token
-Se rendre dans la section "Token" puis cliquer sur Try it out.
-
-Utilisez l'accès d'un user pour générer le token. Ex. user1
+3. Créez un nouvel environnement virtuel
 
 ```
-{
-  "username": "user1",
-  "password": "DevSoftD3sk)"
-}
+python3.12 -m venv env
 ```
-Cliquez sur "Execute". 
-Dans la réponse obtenue (body), vous obtenez votre token refresh et token access. Copiez le token access.
 
-### S'authentifier sur Swagger
-Revenez en haut de la page puis cliquez sur "Authorize".
+4. Activez l'environnement virtuel
 
-Dans la fenêtre modale qui s'ouvre, tapez : 
 ```
-Bearer suivi de votre token access
+source env/bin/activate
 ```
-Vous êtes maintenant authentifié et pouvez effectuer vos tests. 
 
-### Tester les endpoints
+5. Installez pipenv
 
-Une fois authentifié, effectuez des requêtes GET ou POST en cliquant sur Try it out dans la section souhaitée.
+```
+apt install pipenv
+```
+
+6. Installez les dépendances
+Utilisez pipenv pour installer les packages requis depuis le fichier requirements.txt
+
+```
+pipenv install
+pip install -r requirements.txt
+```
+
+7. Installez setuptools (si nécessaire)
+Si nécessaire, installez setuptools pour éviter les erreurs de dépendance
+
+```
+pip install setuptools
+```
+
+8. Effectuez les migrations
+Exécuter les commandes suivantes pour appliquer les migrations de la base de données : 
+
+```
+python manage.py makemigrations
+python manage.py migrate
+```
+
+9. Créez un super utilisateur
+Définissez un compte administrateur pour accéder à l'interface d'administration : 
+
+```
+python manage.py createsuperuser
+```
+
+10. Configurez ALLOWED_HOSTS dans settings.py (si nécessaire)
+Si vous accédez au projet depuis un hôte externe, ajoutez-le dans la configuration
+
+```
+cd softdesk
+nano settings.py
+```
+
+Dans settings.py, modifiez la partie ALLOWED_HOSTS
+
+```
+ALLOWED_HOSTS = ['*']
+```
+
+Sauvegardez puis retourner au répertoire principal
+
+```
+cd ..
+```
+
+11. Lancez et testez le serveur
+
+```
+python manage.py runserver
+
+ou 
+
+python manage.py runserver votre_serveur_externe:8000
+```
+
+12. Accédez à la documentation Swagger
+Rendez-vous sur Swagger pour interagir avec l'API
+
+```
+http://votre_serveur:8000/swagger/
+```
+
+## Test des ENDPOINTS
+13. Authentification avec Token
+Pour obtenir un token d'accès et de rafraîchissement, connectez-vous avec les identifiants de démo :
+
+- Utilisateur : userX (où X est le numéro de l'utilisateur, ex. user1)
+- Mot de passe : DevSoftD3sk)
+
+### Instructions
+Dans Swagger : 
+- Accédez à la section Token.
+- Cliquez sur Try it out et saisissez les identifiants.
+- Récupérez le token d'accès.
+
+Autorisation : 
+- En haut de Swagger, cliquez sur Authorize.
+- Dans la boîte de dialogue, entrez : Bearer <votre_token> (sans les chevrons).
+- Cliquez sur Authorize puis Close.
+
+Vous êtes maintenant prêt à tester les différents endpoints de l’API.
+
+
+
