@@ -64,7 +64,7 @@ class ProjectSerializer(serializers.ModelSerializer):
 
     author_user = serializers.PrimaryKeyRelatedField(
         queryset=get_user_model().objects.all()
-        )
+    )
 
     class Meta:
         """
@@ -140,9 +140,9 @@ class CommentSerializer(serializers.ModelSerializer):
     Serializer for comment model
     """
 
-    author_user_id = serializers.IntegerField(source='author_user.id', read_only=True)
+    author_user_id = serializers.IntegerField(source="author_user.id", read_only=True)
     issue = serializers.PrimaryKeyRelatedField(queryset=Issue.objects.all())
-    project_id = serializers.IntegerField(source='issue.project.id', read_only=True)
+    project_id = serializers.IntegerField(source="issue.project.id", read_only=True)
     created_time = serializers.DateTimeField(format="%d-%m-%Y-%H:%M:%S", read_only=True)
 
     class Meta:
@@ -155,6 +155,7 @@ class CommentSerializer(serializers.ModelSerializer):
             "uuid",
             "description",
             "author_user_id",
-            "project_id", "issue",
-            "created_time"
-            ]
+            "project_id",
+            "issue",
+            "created_time",
+        ]

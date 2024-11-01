@@ -129,7 +129,15 @@ Sauvegardez puis retourner au répertoire principal
 cd ..
 ```
 
-11. Lancez et testez le serveur
+11. Peuplez la base de données
+
+Toujours dans le répertoire du projet, exécutez le script de peuplement pour avoir des données initiales : 
+
+```
+python manage.py runscript api.scripts.populate_data
+```
+
+12. Lancez et testez le serveur
 
 ```
 python manage.py runserver
@@ -139,7 +147,7 @@ ou
 python manage.py runserver votre_serveur_externe:8000
 ```
 
-12. Accédez à la documentation Swagger
+13. Accédez à la documentation Swagger
 Rendez-vous sur Swagger pour interagir avec l'API
 
 ```
@@ -147,7 +155,7 @@ http://votre_serveur:8000/swagger/
 ```
 
 ## Test des ENDPOINTS
-13. Authentification avec Token
+14. Authentification avec Token
 Pour obtenir un token d'accès et de rafraîchissement, connectez-vous avec les identifiants de démo :
 
 - Utilisateur : userX (où X est le numéro de l'utilisateur, ex. user1)
