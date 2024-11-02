@@ -73,6 +73,11 @@ class ProjectSerializer(serializers.ModelSerializer):
 
         model = Project
         fields = ["id", "title", "description", "type", "author_user", "created_time"]
+        read_only_fields = ["id", "author_user", "created_time"]
+
+    def create(self, validated_data):
+        validated_data["author_user"] = self.context["request"].user
+        return super().create(validated_data)
 
 
 # Serializer for contributor model

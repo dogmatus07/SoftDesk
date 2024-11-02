@@ -95,6 +95,17 @@ class ProjectDetailView(generics.RetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         return Project.objects.filter(contributors__user=self.request.user)
 
+    def perform_update(self, serializer):
+        project = self.get_object()
+        if project.author_user != self.request.user:
+            raise PermissionDenied("Vous n'êtes pas autorisé à modifier ce projet.")
+        serializer.save()
+
+    def perform_destroy(self, instance):
+        if instance.author_user != self.request.user:
+            raise PermissionDenied("Vous n'êtes pas autorisé à supprimer ce projet.")
+        instance.delete()
+
 
 @method_decorator(cache_page(60 * 15), name="dispatch")
 class ContributorListView(generics.ListCreateAPIView):
